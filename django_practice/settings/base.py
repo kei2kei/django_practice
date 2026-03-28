@@ -16,9 +16,42 @@ from pathlib import Path
 from typing import Optional
 
 import environ
+import structlog
 
-BASE_DIR = Path(__file__).resolve().parent
+from django_practice.settings.logger_config import LoggerConfig
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_DIR = BASE_DIR.parent
+
+LoggerConfig()
+logger = structlog.get_logger(__name__)
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "structlog": {
+            "()": structlog.stdlib.ProcessorFormatter,
+            "processor": structlog.processors.JSONRenderer(),
+        }
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "structlog",
+        },
+    },
+    "loggers": {
+        "django_structlog": {
+            "handlers": ["console"],
+            "level": "INFO",
+        },
+        "appserver": {
+            "handlers": ["console"],
+            "level": "INFO",
+        },
+    },
+}
 
 # Load environment variables
 env = environ.Env(
@@ -43,6 +76,8 @@ if env_filename is None:
 else:
     environ.Env.read_env(env_filename)
     DEBUG = env("DEBUG")
+
+logger.info("Environment", APP_ENV=env("APP_ENV"), DEBUG=DEBUG)
 
 SECRET_KEY: str = env("DJANGO_SECRET_KEY")
 
@@ -69,6 +104,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_structlog.middlewares.RequestMiddleware",
 ]
 
 ROOT_URLCONF = "django_practice.urls"

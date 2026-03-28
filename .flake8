@@ -6,7 +6,7 @@ exclude =
     ./manage.py,
     ./django_practice/asgi.py,
     ./django_practice/wsgi.py,
-    ./django_practice/settings.py,
+    ./django_practice/settings/*,
     ./matching_app/models/__init__.py
     .venv,
     venv,
