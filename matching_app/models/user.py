@@ -4,6 +4,10 @@ from datetime import datetime
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+from matching_app.pkg.times import get_age_from_date_of_birth
 
 class UserManager(BaseUserManager):
     def create_user(
@@ -63,3 +67,12 @@ class User(AbstractUser):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username", "date_of_birth"]
+
+@receiver(post_save, sender=User)
+def create_OneToOnes(instance, created, **kwargs):
+    if created:
+        from matching_app.models import UserProfile, UserVerification
+
+        age = get_age_from_date_of_birth(instance.date_of_birth)
+        UserProfile.objects.create(user=instance, age=age)
+        UserVerification.objects.create(user=instance)
