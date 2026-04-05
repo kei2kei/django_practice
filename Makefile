@@ -39,10 +39,10 @@ migrate: ## Migrate the database
 	docker compose exec django python manage.py migrate
 
 test: ## Run all tests in the Django project
-	docker compose exec django python manage.py test --settings=django_intmd.settings.test
+	docker compose exec django python manage.py test --settings=django_practice.settings.test
 
 target-test: ## Run specific test like `make target-test TARGET=test_views.TestViews.test_login_view`
-	docker compose exec django python manage.py test $(TEST_PASS).$(TARGET) --settings=django_intmd.settings.test
+	docker compose exec django python manage.py test $(TEST_PASS).$(TARGET) --settings=django_practice.settings.test
 
 createsuperuser: ## Create a superuser
 	docker compose exec django python manage.py createsuperuser
