@@ -42,6 +42,7 @@ def signup(request: HttpRequest) -> HttpResponse:
                 email=email,
                 password=password,
                 date_of_birth=date_of_birth,
+                is_active=False,
             )
 
         if user is None:
