@@ -189,3 +189,5 @@ MEDIA_ROOT = STATIC_ROOT / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "matching_app.User"
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "user_home"
