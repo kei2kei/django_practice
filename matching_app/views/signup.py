@@ -51,7 +51,7 @@ def signup(request: HttpRequest) -> HttpResponse:
             return render(request, "signup_error.html")
 
         login(request, user)
-        return redirect("user_home")
+        return redirect("verify_email", id=user.id)
 
     else:
         form = SignupForm()

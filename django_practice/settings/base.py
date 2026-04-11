@@ -194,7 +194,10 @@ LOGIN_REDIRECT_URL = "user_home"
 LOGOUT_REDIRECT_URL = "index"
 
 # Email
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+if env("APP_ENV") == "production" or env("APP_ENV") == "staging":
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 logger.info(f"Using email backend: {EMAIL_BACKEND}")
 
 EMAIL_HOST = env("EMAIL_HOST")
