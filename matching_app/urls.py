@@ -6,6 +6,7 @@ from matching_app.views.login import login_view, logout_view
 from matching_app.views.signup import signup
 from matching_app.views.user_profile import user_home
 from matching_app.views.verify import send_new_verification_code, verify_email
+from matching_app.views.user_profile import user_profile_update, user_home
 
 urlpatterns = (
   [
