@@ -189,3 +189,20 @@ MEDIA_ROOT = STATIC_ROOT / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "matching_app.User"
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "user_home"
+LOGOUT_REDIRECT_URL = "index"
+
+# Email
+if env("APP_ENV") == "production" or env("APP_ENV") == "staging":
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+else:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+logger.info(f"Using email backend: {EMAIL_BACKEND}")
+
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_PORT = env("EMAIL_PORT")
+EMAIL_USE_TLS = env("EMAIL_USE_TLS")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASS")
+EMAIL_DEFAULT_FROM = env("EMAIL_DEFAULT_FROM")
